@@ -1,6 +1,6 @@
 # Explantory-Data-Analysis
 
-Perform basic statistical analysis, missing error analysis adn plotting 
+Perform basic statistical analysis, missing error analysis 
 
 ### Language and Tools:
   
