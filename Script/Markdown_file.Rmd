@@ -1,0 +1,170 @@
+---
+title: "Markdown file"
+author: "Jenny Ly"
+date: "25/09/2022"
+output: html_document
+---
+
+```{r}
+library(here)
+# Import data
+hyper <- read.csv(here("data","hyper.csv"))
+
+#Package used 
+library(VIM)
+
+```
+
+```{r}
+#Read (Statistical Analysis data)
+dim(hyper)
+##1000 rows, 5 columns
+```
+
+```{r}
+head(hyper)
+str(hyper)
+## no character variables, all integer variables ==> errors in data
+## gender:  categorical variable
+## hypertension: categorical variable
+## bmi: categorical variable
+## missing values (NA) appear
+
+summary(hyper)
+## min in "age_mn", "hypertension" , "bmi" = 0 
+## missing values and incorrect variable's definition affects summary's result 
+
+```
+
+```{r}
+# Check missing data
+aggr(hyper,sortVar=TRUE)$combination
+##  missing data:  "age_mn" - 16,  "hypertension"-271 , "bmi"-166
+## proportion of missing data: "age_mn" 1.6% "hypertension" 27.1% "bm" 16.6%
+
+## Potential errors in data include missing value in data and undefined variables
+```
+
+```{r}
+# Define categorical variables 
+hyper$gender <- factor(hyper$gender)
+table(hyper$gender) #2 levels: 1,2
+
+hyper$hypertension <- factor(hyper$hypertension)
+table(hyper$hypertension) # 2 levels: 0,1
+
+hyper$bmi <-factor(hyper$bmi)
+table(hyper$bmi) # 4 levels: 0,1,2,3
+```
+
+```{r}
+# statistical analysis for new data set
+new_hyper <- na.omit(hyper) #new data set without missing values
+```
+
+```{r}
+#Age: 
+summary(new_hyper$age_mn)
+### median age without missing values: 328.0, range from 98-1012
+IQR(new_hyper$age_mn)
+###interquartile range of age: 440
+```
+
+### Normal Distribution
+
+```{r}
+#Gender
+table(new_hyper$gender)
+table(hyper$gender)
+## Even there is no missing values found in gender, but there are 107 rows 
+##which contain missing values are delleted from original data set.
+##Therefore number of male and female is deducted 
+gender_prop <- 100*table(new_hyper$gender)/length(new_hyper$gender)
+## 50.6% of male , 49.4% of female 
+```
+
+```{r}
+#hypertension
+table(new_hyper$hypertension)
+hyper_prop <- 100*table(new_hyper$hypertension)/length(new_hyper$hypertension)
+###86.3%  no hypertension, 13.7% with hypertension
+
+```
+
+
+```{r}
+#bmi
+table(new_hyper$bmi)
+bmi_prop <- 100*table(new_hyper$bmi)/length(new_hyper$bmi)
+### 20.3% obese, 30% overweight, 39.1% normal, 10.5% underweight
+
+```
+
+### Age Plot
+
+```{r,echo=FALSE}
+#*Plot*
+##Age
+par(mfrow = c(2,2))
+boxplot(new_hyper$age_mn, main = "age by month")
+hist(new_hyper$age_mn,main = "age",
+     xlab= "age by month")
+hist(new_hyper$age_mn,probability = 1, main = "age",
+     xlab= "age by month")
+lines(density(new_hyper$age_mn))
+
+```
+
+no outliners showed in box plot graph, Min:96, max:1012, median: 328 the graph indicates right skew, transformation for data is considered 
+
+### Proportion graph
+
+```{r,echo=FALSE}
+##Hypertension 
+par(mfrow = c(1, 2))
+barplot(table(new_hyper$hypertension),main = "Hypertension",
+        names.arg = c("no-hypertension","hypertension"))
+##Bmi
+barplot(table(new_hyper$bmi),main = "bmi",
+        names.arg = c("obese","overweigth","normal","underweigth"))
+```
+
+### Relationship between graphs
+
+```{r,echo=FALSE}
+par(mfrow = c(2, 2))
+##Relationship between bmi & hypertension
+compare <- table(new_hyper$bmi,new_hyper$hypertension)
+mosaicplot(compare,color = c("light yellow","purple"),
+           main = "Hypertension vs Bmi")
+###high percentage of people with hypertension without obesity, 
+###and there're unlikely people underweight have hypertension 
+
+#Relationship between gender & hypertension
+compare_2 <- table(new_hyper$gender,new_hyper$hypertension)
+mosaicplot(compare_2,color = c("light blue","purple"),
+           main = "Hypertension vs gender")
+###gender doesn't play an important role in hypertension
+##which means both male and female have equal chances getting hypertension
+
+####Relationship between gender & bmi
+compare_3 <- table(new_hyper$bmi,new_hyper$gender)
+mosaicplot(compare_3,color = c("light blue","light yellow"),
+           main = "Bmi vs gender")
+##overweight in male is more likely happend than in female
+
+```
+
+### *Hypertension vs bmi*
+
+High percentage of people with hypertension without obesity, and there're unlikely people underweight have hypertension 
+
+### *gender & hypertension*
+
+gender doesn't play an important role in hypertension which means both male and female have equal chances getting hypertension
+
+### *gender & bmi*
+
+overweight in male is more likely happend than in female
+
+

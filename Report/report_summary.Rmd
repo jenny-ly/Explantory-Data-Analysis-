@@ -1,0 +1,84 @@
+---
+title: "Report Statistic Summary"
+author: "Jenny Ly"
+date: "25/09/2022"
+output: html_document
+---
+
+# Data Dimension & Structure
+
+  -- 1000 rows, 5 variables:
+  
+      1. seqn: number sequence could be treated as identification number;
+      2. age_mn: age in months (age counted in months);
+      3. gender: 1 male; 2 female
+      4. hypertension: 1 hypertension; 0 no-hypertension
+      5. bmi: 0 obese; 1 overweight; 2 normal; 3 underweight.
+      
+  -- all integers, no characters
+  
+  -- with some missing variables (NA)
+  
+## Explore Data
+
+  -- find out missing values are in "age_mn", "hypertension", "bmi"
+  
+  -- proportion of missing data: "age_mn" 1.6% "hypertension" 27.1% "bmi" 16.6%
+  
+  -- "gender", "hypertension" ,"bmi" variables should be categorical variables
+
+## Insight
+
+  -- Potential errors for origin data (missing values, messy data characters)
+  
+  -- Omit those missing values
+  
+  -- Set a new data frame without missing values
+  
+  -- EDA for new data frame
+  
+  -- Plots and compare variables in data to see if there's relationship
+  
+## Result
+
+  -- "Age_mn":
+  
+    + min value for "age" is 98, max is 1012 months 
+    + interquartile range of age: 440
+    + median : 328
+    
+  -- "hypertension":
+  
+    + 86.3%  people no hypertension, 13.7% people with hypertension
+    
+  -- "gender":
+  
+    + 50.6% population is male , 49.4% female (~ equal) (unbiased?)
+    
+  -- "bmi":
+  
+    + 20.3% obese, 30% overweight, 39.1% normal, 10.5% underweight
+    
+## Plot
+
+  -- plot of each variable can be found in "Figures" folder
+  
+  -- From the plot I can tell:
+  
+    + violence in normal distribution, the graph is right skewed. Data transformation is considered to solve problem 
+    
+    + there's unlikely people underweight have hypertension 
+    
+    + gender doesn't play an important role in hypertension, which means both male and female have equal chances getting hypertension
+    
+    + overweight in male is more likely happened than in female
+
+  
+    
+    
+  
+  
+  
+  
+  
+  
